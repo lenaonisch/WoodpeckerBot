@@ -31,7 +31,7 @@ namespace WoodpeckerBot.Handlers
                         replyMarkup: new ReplyKeyboardRemove()
                     );
                     break;
-                case "start/WORMS":
+                default:
                     break;
             };
         

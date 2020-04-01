@@ -33,9 +33,11 @@ namespace WoodpeckerBot
                 .AddScoped<ExceptionHandler>()
                 .AddScoped<UpdateMembersList>()
                 .AddScoped<CallbackQueryHandler>()
+                .AddScoped<CountWormsCallbackHandler>()
             ;
             
             services.AddScoped<IFindTreeService, FindTreeService>();
+            services.AddScoped<ICountWormsService, CountWormsService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -83,7 +85,7 @@ namespace WoodpeckerBot
                     )
                     .MapWhen<FindTreeHandler>(When.LocationMessage)
                 )
-
+                .MapWhen<CountWormsCallbackHandler>(CountWormsCallbackHandler.CanHandle)
                 .MapWhen<CallbackQueryHandler>(When.CallbackQuery)
 
                 // .Use<UnhandledUpdateReporter>()
