@@ -20,8 +20,7 @@ namespace Quickstart.AspNetCore.Handlers
                 "What would you like to do?",
                 ParseMode.Markdown,
                 replyToMessageId: msg.MessageId,
-                replyMarkup: CreateMenu()
-                
+                replyMarkup: CreateMenu()   
             );
         }
 

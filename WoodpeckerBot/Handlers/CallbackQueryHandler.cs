@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -19,7 +20,7 @@ namespace Quickstart.AspNetCore.Handlers
                         context.Update.CallbackQuery.Message.Chat,
                         "Send your location, please",
                         ParseMode.Markdown,
-                        replyMarkup: new ReplyKeyboardRemove()
+                        replyMarkup: CreateTreeMarkup()
                     );
             }
             else
@@ -33,5 +34,16 @@ namespace Quickstart.AspNetCore.Handlers
             }
             await next(context);
         }
+
+        private ReplyKeyboardMarkup CreateTreeMarkup() =>
+                new ReplyKeyboardMarkup(new List<KeyboardButton>()
+                    {
+                        new KeyboardButton("My location"){ RequestLocation = true },
+                        new KeyboardButton("Back")
+                    }
+                )
+                { ResizeKeyboard = true}
+            ;
+        
     }
 }

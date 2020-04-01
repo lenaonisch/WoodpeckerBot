@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Quickstart.AspNetCore.Handlers
 {
@@ -11,7 +12,9 @@ namespace Quickstart.AspNetCore.Handlers
             Message msg = context.Update.Message;
 
             await context.Bot.Client.SendTextMessageAsync(
-                msg.Chat, "You said:\n" + msg.Text
+                msg.Chat, 
+                "You said:\n" + msg.Text,
+                replyMarkup: new ReplyKeyboardRemove()
             );
 
             await next(context);
