@@ -3,7 +3,7 @@ using System.Linq;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.Types.Enums;
 
-namespace Quickstart.AspNetCore
+namespace WoodpeckerBot
 {
     public static class When
     {

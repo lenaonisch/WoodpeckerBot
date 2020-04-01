@@ -3,7 +3,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Quickstart.AspNetCore.Services
+namespace WoodpeckerBot.Services
 {
     class WeatherService : IWeatherService
     {

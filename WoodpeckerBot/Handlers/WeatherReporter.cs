@@ -1,10 +1,10 @@
-﻿using Quickstart.AspNetCore.Services;
+﻿using WoodpeckerBot.Services;
 using System.Threading.Tasks;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Quickstart.AspNetCore.Handlers
+namespace WoodpeckerBot.Handlers
 {
     class WeatherReporter : IUpdateHandler
     {

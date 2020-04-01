@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 
-namespace Quickstart.AspNetCore
+namespace WoodpeckerBot
 {
     public class Program
     {

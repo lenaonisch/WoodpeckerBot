@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Telegram.Bot.Framework.Abstractions;
 
-namespace Quickstart.AspNetCore.Services
+namespace WoodpeckerBot.Services
 {
     internal class BotServiceProvider : IBotServiceProvider
     {

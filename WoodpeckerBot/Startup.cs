@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Quickstart.AspNetCore.Handlers;
-using Quickstart.AspNetCore.Options;
-using Quickstart.AspNetCore.Services;
+using WoodpeckerBot.Handlers;
+using WoodpeckerBot.Options;
+using WoodpeckerBot.Services;
 using System;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
 
-namespace Quickstart.AspNetCore
+namespace WoodpeckerBot
 {
     public class Startup
     {
@@ -32,11 +32,13 @@ namespace Quickstart.AspNetCore
                 .AddScoped<WebhookLogger>()
                 .AddScoped<StickerHandler>()
                 .AddScoped<WeatherReporter>()
+                .AddScoped<FindTreeHandler>()
                 .AddScoped<ExceptionHandler>()
                 .AddScoped<UpdateMembersList>()
                 .AddScoped<CallbackQueryHandler>()
             ;
             services.AddScoped<IWeatherService, WeatherService>();
+            services.AddScoped<IFindTreeService, FindTreeService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -82,8 +84,7 @@ namespace Quickstart.AspNetCore
                         )
                     //.Use<NLP>()
                     )
-                    .MapWhen<StickerHandler>(When.StickerMessage)
-                    .MapWhen<WeatherReporter>(When.LocationMessage)
+                    .MapWhen<FindTreeHandler>(When.LocationMessage)
                 )
 
                 .MapWhen<CallbackQueryHandler>(When.CallbackQuery)

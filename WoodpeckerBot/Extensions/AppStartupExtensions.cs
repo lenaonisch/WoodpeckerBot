@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Quickstart.AspNetCore;
-using Quickstart.AspNetCore.Options;
-using Quickstart.AspNetCore.Services;
+using WoodpeckerBot;
+using WoodpeckerBot.Options;
+using WoodpeckerBot.Services;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

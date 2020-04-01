@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Telegram.Bot.Framework.Abstractions;
 
-namespace Quickstart.AspNetCore.Handlers
+namespace WoodpeckerBot.Handlers
 {
     class WebhookLogger : IUpdateHandler
     {

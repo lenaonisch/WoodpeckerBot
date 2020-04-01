@@ -3,7 +3,7 @@ using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace Quickstart.AspNetCore.Handlers
+namespace WoodpeckerBot.Handlers
 {
     public class TextEchoer : IUpdateHandler
     {

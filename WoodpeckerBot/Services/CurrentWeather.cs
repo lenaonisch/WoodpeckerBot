@@ -1,4 +1,4 @@
-﻿namespace Quickstart.AspNetCore.Services
+﻿namespace WoodpeckerBot.Services
 {
     struct CurrentWeather
     {
