@@ -26,18 +26,15 @@ namespace WoodpeckerBot
             services.AddTransient<EchoBot>()
                 .Configure<BotOptions<EchoBot>>(Configuration.GetSection("EchoBot"))
                 .Configure<CustomBotOptions<EchoBot>>(Configuration.GetSection("EchoBot"))
-                .AddScoped<TextEchoer>()
-                .AddScoped<PingCommand>()
+                .AddScoped<TextEchoer>() 
                 .AddScoped<StartCommand>()
                 .AddScoped<WebhookLogger>()
-                .AddScoped<StickerHandler>()
-                .AddScoped<WeatherReporter>()
                 .AddScoped<FindTreeHandler>()
                 .AddScoped<ExceptionHandler>()
                 .AddScoped<UpdateMembersList>()
                 .AddScoped<CallbackQueryHandler>()
             ;
-            services.AddScoped<IWeatherService, WeatherService>();
+            
             services.AddScoped<IFindTreeService, FindTreeService>();
         }
 

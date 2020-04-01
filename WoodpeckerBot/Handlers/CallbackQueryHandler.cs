@@ -13,25 +13,28 @@ namespace WoodpeckerBot.Handlers
         {
             CallbackQuery cq = context.Update.CallbackQuery;
 
-            if (cq.Data.StartsWith("start/TREE"))
+            switch (cq.Data)
             {
-
-                await context.Bot.Client.SendTextMessageAsync(
+                case "start/TREE":
+                    await context.Bot.Client.SendTextMessageAsync(
                         context.Update.CallbackQuery.Message.Chat,
                         "Send your location, please",
                         ParseMode.Markdown,
                         replyMarkup: CreateTreeMarkup()
                     );
-            }
-            else
-            {
-                await context.Bot.Client.SendTextMessageAsync(
+                    break;
+                case "start/HOLE":
+                    await context.Bot.Client.SendTextMessageAsync(
                         context.Update.CallbackQuery.Message.Chat,
                         "Try again",
                         ParseMode.Markdown,
                         replyMarkup: new ReplyKeyboardRemove()
                     );
-            }
+                    break;
+                case "start/WORMS":
+                    break;
+            };
+        
             await next(context);
         }
 
