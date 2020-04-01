@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Quickstart.AspNetCore.Handlers
 {
@@ -10,8 +12,25 @@ namespace Quickstart.AspNetCore.Handlers
         {
             CallbackQuery cq = context.Update.CallbackQuery;
 
-            await context.Bot.Client.AnswerCallbackQueryAsync(cq.Id, "PONG", showAlert: true);
+            if (cq.Data.StartsWith("start/TREE"))
+            {
 
+                await context.Bot.Client.SendTextMessageAsync(
+                        context.Update.CallbackQuery.Message.Chat,
+                        "Send your location, please",
+                        ParseMode.Markdown,
+                        replyMarkup: new ReplyKeyboardRemove()
+                    );
+            }
+            else
+            {
+                await context.Bot.Client.SendTextMessageAsync(
+                        context.Update.CallbackQuery.Message.Chat,
+                        "Try again",
+                        ParseMode.Markdown,
+                        replyMarkup: new ReplyKeyboardRemove()
+                    );
+            }
             await next(context);
         }
     }

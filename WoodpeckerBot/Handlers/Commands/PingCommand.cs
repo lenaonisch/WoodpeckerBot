@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.Types;
@@ -15,13 +16,22 @@ namespace Quickstart.AspNetCore.Handlers
 
             await context.Bot.Client.SendTextMessageAsync(
                 msg.Chat,
-                "*PONG*",
+                "🌳 Hello, I'm a woodpecker! 🌳\n\r" +
+                "What would you like to do?",
                 ParseMode.Markdown,
                 replyToMessageId: msg.MessageId,
-                replyMarkup: new InlineKeyboardMarkup(
-                    InlineKeyboardButton.WithCallbackData("Ping", "PONG")
-                )
+                replyMarkup: CreateMenu()
+                
             );
         }
+
+        private InlineKeyboardMarkup CreateMenu() =>
+            new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
+                    {
+                        InlineKeyboardButton.WithCallbackData("Find a tree", "start/TREE"),
+                        InlineKeyboardButton.WithCallbackData("Do a hole", "start/HOLE"),
+                        InlineKeyboardButton.WithCallbackData("Count worms", "start/WORMS")
+                    }
+            );
     }
 }
