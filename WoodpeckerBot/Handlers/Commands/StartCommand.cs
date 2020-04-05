@@ -1,14 +1,59 @@
-﻿using System.Threading.Tasks;
-using Telegram.Bot.Framework.Abstractions;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using IBWT.Framework.Abstractions;
+using Microsoft.Extensions.Logging;
+using WoodpeckerBot.Data.Entities;
+using WoodpeckerBot.Data.Repository;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
-namespace Quickstart.AspNetCore.Handlers
+namespace WoodpeckerBot.Handlers
 {
-    class StartCommand : CommandBase
+    public class StartCommand : CommandBase
     {
-        public override async Task HandleAsync(IUpdateContext context, UpdateDelegate next, string[] args)
+        private readonly IDataRepository<TGUser> userRepository;
+        private readonly ILogger<StartCommand> logger;
+
+        public StartCommand(
+            IDataRepository<TGUser> userRepository,
+            ILogger<StartCommand> logger
+        )
         {
-            await context.Bot.Client.SendTextMessageAsync(context.Update.Message.Chat, "Hello, World!");
-            await next(context);
+            this.userRepository = userRepository;
+            this.logger = logger;
+        }
+        public override async Task HandleAsync(
+            IUpdateContext context,
+            UpdateDelegate next,
+            string[] args,
+            CancellationToken cancellationToken
+        )
+        {
+            var msg = context.Update.Message;
+            if (userRepository.Get(msg.Chat.Id) == null)
+            {
+                logger.LogInformation($"User created {0}, {1}", msg.Chat.Id, msg.Chat.Username);
+                userRepository.Add(new TGUser()
+                {
+                    Id = msg.Chat.Id,
+                    FirstName = msg.Chat.FirstName,
+                    LastName = msg.Chat.LastName,
+                    Nickname = msg.Chat.Username
+                });
+            }
+
+            await context.Bot.Client.SendTextMessageAsync(
+                msg.Chat,
+                "*Hello, World!*",
+                ParseMode.Markdown,
+                replyToMessageId: msg.MessageId,
+                replyMarkup: new InlineKeyboardMarkup(
+                    InlineKeyboardButton.WithCallbackData("Tap to start", "Start")
+                ),
+                cancellationToken: cancellationToken
+            );
+
+            await next(context, cancellationToken);
         }
     }
 }

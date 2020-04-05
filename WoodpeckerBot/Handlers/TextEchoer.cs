@@ -1,20 +1,23 @@
-﻿using System.Threading.Tasks;
-using Telegram.Bot.Framework.Abstractions;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using IBWT.Framework.Abstractions;
 using Telegram.Bot.Types;
 
-namespace Quickstart.AspNetCore.Handlers
+namespace WoodpeckerBot.Handlers
 {
-    public class TextEchoer : IUpdateHandler
+    public class Texthandler : IUpdateHandler
     {
-        public async Task HandleAsync(IUpdateContext context, UpdateDelegate next)
+        public async Task HandleAsync(IUpdateContext context, UpdateDelegate next, CancellationToken cancellationToken)
         {
             Message msg = context.Update.Message;
 
             await context.Bot.Client.SendTextMessageAsync(
-                msg.Chat, "You said:\n" + msg.Text
+                msg.Chat,
+                "You said:\n" + msg.Text,
+                cancellationToken: cancellationToken
             );
 
-            await next(context);
+            await next(context, cancellationToken);
         }
     }
 }

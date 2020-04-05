@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Quickstart.AspNetCore.Services
+namespace WoodpeckerBot.Services
 {
     interface IWeatherService
     {

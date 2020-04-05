@@ -1,10 +1,11 @@
-﻿using Quickstart.AspNetCore.Services;
+﻿using System.Threading;
+using WoodpeckerBot.Services;
 using System.Threading.Tasks;
-using Telegram.Bot.Framework.Abstractions;
+using IBWT.Framework.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Quickstart.AspNetCore.Handlers
+namespace WoodpeckerBot.Handlers
 {
     class WeatherReporter : IUpdateHandler
     {
@@ -15,7 +16,7 @@ namespace Quickstart.AspNetCore.Handlers
             _weatherService = weatherService;
         }
 
-        public async Task HandleAsync(IUpdateContext context, UpdateDelegate next)
+        public async Task HandleAsync(IUpdateContext context, UpdateDelegate next, CancellationToken cancellationToken)
         {
             Message msg = context.Update.Message;
             Location location = msg.Location;
@@ -24,12 +25,13 @@ namespace Quickstart.AspNetCore.Handlers
 
             await context.Bot.Client.SendTextMessageAsync(
                 msg.Chat,
-                $"Weather status is *{weather.Status}* with the temperature of {weather.Temp:F1}.\n" +
+                $"Weather status is *{weather.Status}* with the temperature of *{weather.Temp:F1}*°C.\n" +
                 $"Min: {weather.MinTemp:F1}\n" +
                 $"Max: {weather.MaxTemp:F1}\n\n\n" +
                 "powered by [MetaWeather](https://www.metaweather.com)",
                 ParseMode.Markdown,
-                replyToMessageId: msg.MessageId
+                replyToMessageId: msg.MessageId,
+                cancellationToken: cancellationToken
             );
         }
     }
