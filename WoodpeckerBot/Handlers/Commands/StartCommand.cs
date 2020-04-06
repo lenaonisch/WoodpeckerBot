@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using IBWT.Framework.Abstractions;
 using Microsoft.Extensions.Logging;
 using WoodpeckerBot.Data.Entities;
@@ -41,19 +42,39 @@ namespace WoodpeckerBot.Handlers
                     Nickname = msg.Chat.Username
                 });
             }
-
+/*
             await context.Bot.Client.SendTextMessageAsync(
+                 msg.Chat,
+                 "*Hello, World!*",
+                 ParseMode.Markdown,
+                 replyToMessageId: msg.MessageId,
+                 replyMarkup: new InlineKeyboardMarkup(
+                     InlineKeyboardButton.WithCallbackData("Tap to start", "Start")
+                 ),
+                 cancellationToken: cancellationToken
+             );
+*/
+            
+           /* await context.Bot.Client.SendTextMessageAsync(
                 msg.Chat,
-                "*Hello, World!*",
+                "🌳 Hello, I'm a woodpecker! 🌳\n\r" +
+                "What would you like to do?",
                 ParseMode.Markdown,
                 replyToMessageId: msg.MessageId,
-                replyMarkup: new InlineKeyboardMarkup(
-                    InlineKeyboardButton.WithCallbackData("Tap to start", "Start")
-                ),
+                replyMarkup: CreateMenu(),
                 cancellationToken: cancellationToken
             );
-
+            */
             await next(context, cancellationToken);
         }
+
+        private InlineKeyboardMarkup CreateMenu() =>
+            new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
+                    {
+                        InlineKeyboardButton.WithCallbackData("Find a tree", "menu1::"),
+                        InlineKeyboardButton.WithCallbackData("Do a hole", "menu1::"),
+                        InlineKeyboardButton.WithCallbackData("Count worms", "menu1::")
+                    }
+            );
     }
 }

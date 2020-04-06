@@ -63,6 +63,8 @@ namespace WoodpeckerBot
                 .AddScoped<Texthandler>()
                 .AddScoped<StartCommand>()
                 .AddScoped<UpdateLogger>()
+                .AddScoped<FindTreeHandler>()
+              //  .AddScoped<CountWormsService>()
                 .AddScoped<StickerHandler>()
                 .AddScoped<WeatherReporter>()
                 .AddScoped<ExceptionHandler>()
@@ -73,7 +75,8 @@ namespace WoodpeckerBot
                 .AddScoped<DefaultHandler>()
                 ;
 
-            services.AddScoped<IWeatherService, WeatherService>();
+            services.AddScoped<IFindTreeService, FindTreeService>();
+            //services.AddScoped<ICountWormsService, CountWormsService>();
 
             services.AddSingleton<IScheduledTask, NotifyWeatherTask>();
             services.AddScheduler((sender, args) =>
@@ -120,12 +123,16 @@ namespace WoodpeckerBot
                         //.Use<Texthandler>()
                     //.Use<NLP>()
                     )
-                    .UseWhen<StickerHandler>(When.StickerMessage)
-                    .UseWhen<WeatherReporter>(When.LocationMessage)
+                    
+                    //.UseWhen<StickerHandler>(When.StickerMessage)
+                    //.UseWhen<WeatherReporter>(When.LocationMessage)
                 )
+                
                 )
                 .MapWhen(When.State("menu1"), defaultBranch => defaultBranch
                     .UseWhen<Menu1QueryHandler>(When.CallbackQuery)
+                    .UseWhen<FindTreeHandler>(When.LocationMessage)
+                    //.MapWhen<CountWormsCallbackHandler>(CountWormsCallbackHandler.CanHandle)
                 )
                 .MapWhen(When.State("menu2"), defaultBranch => defaultBranch
                     .UseWhen<Menu2QueryHandler>(When.CallbackQuery)
