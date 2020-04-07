@@ -7,6 +7,7 @@ using WoodpeckerBot.Data.Entities;
 using WoodpeckerBot.Data.Repository;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types;
 
 namespace WoodpeckerBot.Handlers
 {
@@ -30,7 +31,7 @@ namespace WoodpeckerBot.Handlers
             CancellationToken cancellationToken
         )
         {
-            var msg = context.Update.Message;
+            var msg = context.Update.Message ?? context.Update.CallbackQuery.Message;
             if (userRepository.Get(msg.Chat.Id) == null)
             {
                 logger.LogInformation($"User created {0}, {1}", msg.Chat.Id, msg.Chat.Username);
@@ -42,38 +43,31 @@ namespace WoodpeckerBot.Handlers
                     Nickname = msg.Chat.Username
                 });
             }
-/*
+
             await context.Bot.Client.SendTextMessageAsync(
-                 msg.Chat,
-                 "*Hello, World!*",
-                 ParseMode.Markdown,
-                 replyToMessageId: msg.MessageId,
-                 replyMarkup: new InlineKeyboardMarkup(
-                     InlineKeyboardButton.WithCallbackData("Tap to start", "Start")
-                 ),
-                 cancellationToken: cancellationToken
-             );
-*/
-            
-           /* await context.Bot.Client.SendTextMessageAsync(
                 msg.Chat,
+                //context.Items["History"].ToString() + " and last item = " +  context.Items["State"].ToString(),
                 "🌳 Hello, I'm a woodpecker! 🌳\n\r" +
                 "What would you like to do?",
                 ParseMode.Markdown,
                 replyToMessageId: msg.MessageId,
+                /*replyMarkup: new InlineKeyboardMarkup(
+                    new InlineKeyboardButton[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("menu1", "menu1::")
+                    }*/
                 replyMarkup: CreateMenu(),
+
                 cancellationToken: cancellationToken
             );
-            */
-            await next(context, cancellationToken);
         }
 
         private InlineKeyboardMarkup CreateMenu() =>
             new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
-                    {
-                        InlineKeyboardButton.WithCallbackData("Find a tree", "menu1::"),
-                        InlineKeyboardButton.WithCallbackData("Do a hole", "menu1::"),
-                        InlineKeyboardButton.WithCallbackData("Count worms", "menu1::")
+                     {
+                        InlineKeyboardButton.WithCallbackData("Find a tree", "menu1::TREE"),
+                        InlineKeyboardButton.WithCallbackData("Do a hole", "menu1::HOLE"),
+                        InlineKeyboardButton.WithCallbackData("Count worms", "menu1::WORMS")
                     }
             );
     }

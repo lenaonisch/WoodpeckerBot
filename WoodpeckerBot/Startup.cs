@@ -72,8 +72,7 @@ namespace WoodpeckerBot
                 .AddScoped<Menu1QueryHandler>()
                 .AddScoped<Menu2QueryHandler>()
                 .AddScoped<Menu3QueryHandler>()
-                .AddScoped<DefaultHandler>()
-                //.AddScoped<WoodpeckerBot.Services.Random>()
+                //.AddScoped<DefaultHandler>()
                 ;
 
             services.AddScoped<IFindTreeService, FindTreeService>();
@@ -121,7 +120,7 @@ namespace WoodpeckerBot
                         .UseWhen(When.NewCommand, cmdBranch => cmdBranch
                             .UseCommand<StartCommand>("start")
                         )
-                        .Use<DefaultHandler>()
+                        //.Use<DefaultHandler>()
                         //.Use<Texthandler>()
                     //.Use<NLP>()
                     )

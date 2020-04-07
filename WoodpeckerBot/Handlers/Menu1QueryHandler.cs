@@ -58,7 +58,10 @@ namespace WoodpeckerBot.Handlers
                         new KeyboardButton("My location"){ RequestLocation = true },
                     }
                 )
-                { ResizeKeyboard = true }
+                { 
+                    ResizeKeyboard = true,
+                    OneTimeKeyboard = true
+                }
             ;
     }
 }
