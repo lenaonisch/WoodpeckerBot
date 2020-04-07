@@ -19,7 +19,7 @@ namespace WoodpeckerBot.Handlers
             _countWormsService = countWormsService;
         }
         public static bool CanHandle(IUpdateContext context) =>
-            context.Update.CallbackQuery?.Data?.StartsWith("menu1:WORMS") == true;
+            context.Update.CallbackQuery?.Data?.StartsWith("menu1::WORMS") == true;
         
         public async Task HandleAsync(IUpdateContext context, UpdateDelegate next, CancellationToken cancellationToken)
         {
@@ -32,7 +32,7 @@ namespace WoodpeckerBot.Handlers
             );
                     
           
-            await next(context);
+            await next(context, cancellationToken);
         }
     }
 }

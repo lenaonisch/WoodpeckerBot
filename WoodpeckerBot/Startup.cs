@@ -64,7 +64,7 @@ namespace WoodpeckerBot
                 .AddScoped<StartCommand>()
                 .AddScoped<UpdateLogger>()
                 .AddScoped<FindTreeHandler>()
-              //  .AddScoped<CountWormsService>()
+                .AddScoped<CountWormsCallbackHandler>()
                 .AddScoped<StickerHandler>()
                 .AddScoped<WeatherReporter>()
                 .AddScoped<ExceptionHandler>()
@@ -73,10 +73,11 @@ namespace WoodpeckerBot
                 .AddScoped<Menu2QueryHandler>()
                 .AddScoped<Menu3QueryHandler>()
                 .AddScoped<DefaultHandler>()
+                //.AddScoped<WoodpeckerBot.Services.Random>()
                 ;
 
             services.AddScoped<IFindTreeService, FindTreeService>();
-            //services.AddScoped<ICountWormsService, CountWormsService>();
+            services.AddScoped<ICountWormsService, CountWormsService>();
 
             services.AddSingleton<IScheduledTask, NotifyWeatherTask>();
             services.AddScheduler((sender, args) =>
@@ -113,6 +114,7 @@ namespace WoodpeckerBot
                 .Use<UpdateLogger>()
                 // .Use<CustomUpdateLogger>()
                 .UseWhen<UpdateMembersList>(When.MembersChanged)
+
                 .MapWhen(When.State("default"), cmdBranch => cmdBranch
                     .UseWhen(When.NewMessage, msgBranch => msgBranch
                     .UseWhen(When.NewTextMessage, txtBranch => txtBranch
@@ -131,8 +133,8 @@ namespace WoodpeckerBot
                 )
                 .MapWhen(When.State("menu1"), defaultBranch => defaultBranch
                     .UseWhen<Menu1QueryHandler>(When.CallbackQuery)
+                    .MapWhen<CountWormsCallbackHandler>(CountWormsCallbackHandler.CanHandle)
                     .UseWhen<FindTreeHandler>(When.LocationMessage)
-                    //.MapWhen<CountWormsCallbackHandler>(CountWormsCallbackHandler.CanHandle)
                 )
                 .MapWhen(When.State("menu2"), defaultBranch => defaultBranch
                     .UseWhen<Menu2QueryHandler>(When.CallbackQuery)
